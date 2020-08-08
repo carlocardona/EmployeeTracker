@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const gandalf = require("gandalf");
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -11,6 +12,6 @@ const connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "",
+    password: gandalf.code,
     database: "employee_tracker"
 });
