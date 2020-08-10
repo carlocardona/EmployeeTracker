@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require('console.table');
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -10,7 +11,7 @@ const connection = mysql.createConnection({
 });
 
 connection.connect(err => {
-    if(err) throw err;
+    if (err) throw err;
     console.log('connect as id: ' + connection.threadId);
     main();
 });
@@ -18,36 +19,60 @@ connection.connect(err => {
 const main = () => {
     inquirer.prompt([
         {
-            type:'list',
+            type: 'list',
             name: 'action',
             message: 'What would you like to do',
-            choices:['View All Employees','Add an Employee','Quit']
+            choices: ['View All Employees', 'Add an Employee', 'Quit']
         }
-    ]).then(response =>{
+    ]).then(response => {
         console.log(response);
 
         const choice = response.action
 
-        switch(choice){
+        switch (choice) {
             case 'View All Employees': allEmployees();
-            break;
+                break;
             case 'Add an Employee': addEmployee();
-            break;
+                break;
             case 'Quit': end();
-            break;
+                break;
             default: end();
         }
-        
+
     });
 }
 
-const allEmployees = () =>{
+const allEmployees = () => {
     console.log('All Employees');
+
+    connection.query('SELECT * FROM employee', function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    });
     main();
 }
 
-const addEmployee = () =>{
+const addEmployee = () => {
     console.log('Add Employee');
+    // inquirer.prompt([
+    //     {
+    //         type: 'input',
+    //         name: 'firstname',
+    //         message: 'First Name: '
+    //     },
+    //     {
+    //         type: 'input',
+    //         name: 'lastname',
+    //         message: 'Last Name: '
+    //     },
+    //     {
+    //         type: 'list',
+    //         name: 'role',
+    //         choices: ['1. CSA - Customer Service Agent', '2. CSA Manager']
+    //     }
+    // ]).then(response => {
+    //     connection.query()
+    // })
     main();
 }
 
