@@ -45,15 +45,14 @@ const main = () => {
 
 //Add Item MAIN
 const addItem = () => {
-    console.log('Add Item');
-    inquirer.prompt([
+    inquirer.prompt(
         {
             type: 'list',
             name: 'addItem',
             message: 'What would you like to add? ',
-            choices: ['Department', 'Role', 'Employee'],
+            choices: ['Department', 'Role', 'Employee']
         }
-    ]).then(response => {
+    ).then(response => {
 
         const choice = response.addItem;
 
@@ -68,7 +67,6 @@ const addItem = () => {
         }
 
     })
-    main();
 }
 
 //Add Department
@@ -83,7 +81,52 @@ const addRole = () => {
 
 //Add Employee
 const addEmployee = () => {
+
     console.log('Add Employee');
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'firstname',
+            message: 'First Name: '
+        },
+        {
+            type: 'input',
+            name: 'lastname',
+            message: 'Last Name: '
+        },
+        {
+            type: 'list',
+            name: 'role',
+            message: 'Role: ',
+            choices: ['Customer Service Agent', 'Manager']
+        }
+    ]).then(res => {
+        const fName = res.firstname;
+        const lName = res.lastname;
+        const role = res.role;
+        let roleVal = 0;
+
+        if (role === 'Customer Service Agent') {
+            roleVal = 1;
+        }
+
+        if (role === 'Manager') {
+            roleVal = 2;
+        }
+
+        const query = connection.query(
+            'INSERT INTO employee SET ?',
+            {
+                first_name: fName,
+                last_name: lName,
+                role_id: roleVal
+            },
+            function (err, res) {
+                if (err) throw err;
+            }
+        );
+    })
+
 }
 
 //view - department, roles, employees
