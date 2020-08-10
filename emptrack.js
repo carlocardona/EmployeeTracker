@@ -17,22 +17,23 @@ connection.connect(err => {
 });
 
 const main = () => {
-    inquirer.prompt([
+    inquirer.prompt(
         {
             type: 'list',
             name: 'action',
             message: 'What would you like to do',
-            choices: ['View All Employees', 'Add an Employee', 'Quit']
+            choices: ['Add', 'View', 'Update', 'Quit']
         }
-    ]).then(response => {
-        console.log(response);
+    ).then(response => {
 
-        const choice = response.action
+        const choice = response.action;
 
         switch (choice) {
-            case 'View All Employees': allEmployees();
+            case 'View': view();
                 break;
-            case 'Add an Employee': addEmployee();
+            case 'Add': addItem();
+                break;
+            case 'Update': updateEmp();
                 break;
             case 'Quit': end();
                 break;
@@ -42,40 +43,61 @@ const main = () => {
     });
 }
 
-const allEmployees = () => {
-    console.log('All Employees');
+//Add Item MAIN
+const addItem = () => {
+    console.log('Add Item');
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'addItem',
+            message: 'What would you like to add? ',
+            choices: ['Department', 'Role', 'Employee'],
+        }
+    ]).then(response => {
 
-    connection.query('SELECT * FROM employee', function (err, res) {
-        if (err) throw err;
-        console.table(res);
-    });
+        const choice = response.addItem;
+
+        switch (choice) {
+            case 'Department': addDepart();
+                break;
+            case 'Role': addRole();
+                break;
+            case 'Employee': addEmployee();
+                break;
+            default: end();
+        }
+
+    })
     main();
 }
 
+//Add Department
+const addDepart = () => {
+    console.log('Add Department');
+}
+
+//Add Role
+const addRole = () => {
+    console.log('Add Role');
+}
+
+//Add Employee
 const addEmployee = () => {
     console.log('Add Employee');
-    // inquirer.prompt([
-    //     {
-    //         type: 'input',
-    //         name: 'firstname',
-    //         message: 'First Name: '
-    //     },
-    //     {
-    //         type: 'input',
-    //         name: 'lastname',
-    //         message: 'Last Name: '
-    //     },
-    //     {
-    //         type: 'list',
-    //         name: 'role',
-    //         choices: ['1. CSA - Customer Service Agent', '2. CSA Manager']
-    //     }
-    // ]).then(response => {
-    //     connection.query()
-    // })
-    main();
 }
 
+//view - department, roles, employees
+
+/////
+
+//Update Employee Roles
+const updateEmp = () => {
+    console.log('Update Employee Roles');
+}
+
+/////
+
+//END CONNECTION
 const end = () => {
     console.log('End Connection');
     connection.end();
