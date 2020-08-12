@@ -51,27 +51,49 @@ const addItem = () => {
             name: 'addItem',
             message: 'What would you like to add? ',
             choices: ['Department', 'Role', 'Employee']
-        }
-    ).then(response => {
+        }).then(response => {
 
-        const choice = response.addItem;
+            const choice = response.addItem;
 
-        switch (choice) {
-            case 'Department': addDepart();
-                break;
-            case 'Role': addRole();
-                break;
-            case 'Employee': addEmployee();
-                break;
-            default: end();
-        }
+            switch (choice) {
+                case 'Department': addDepart();
+                    break;
+                case 'Role': addRole();
+                    break;
+                case 'Employee': addEmployee();
+                    break;
+                default: end();
+            }
 
-    })
+        })
 }
 
 //Add Department
 const addDepart = () => {
     console.log('Add Department');
+
+    inquirer.prompt({
+        type: 'list',
+        name: 'department',
+        message: 'Choose Department',
+        choices: ['Customer Service', 'Human Resources', 'Engineering']
+    }).then(res => {
+
+        const choice = res.department;
+
+        let deptVal = 0;
+
+        switch (choice) {
+            case 'Customer Service': deptVal = 1;
+                break;
+            case 'Human Resources': deptVal = 2;
+                break;
+            case 'Engineering': deptVal = 3;
+                break;
+            default: deptVal = 0;
+                break;
+        }
+    });
 }
 
 //Add Role
