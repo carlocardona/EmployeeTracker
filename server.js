@@ -93,12 +93,62 @@ const addDepart = () => {
             default: deptVal = 0;
                 break;
         }
+
+        const query = connection.query(
+            'INSERT INTO department SET ?',
+            {
+                id: deptVal,
+                name: choice
+            },
+            function (err, res) {
+                if (err) throw err;
+            }
+        );
+
     });
+
+    main();
 }
 
 //Add Role
 const addRole = () => {
     console.log('Add Role');
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'Title: '
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'Salary: ',
+        },
+        {
+            type: 'input',
+            name: 'deptID',
+            message: 'Deparment ID: '
+        }
+    ]).then(res => {
+        const title = res.title;
+        const salary = res.salary;
+        const deptID = res.deptID;
+
+        const query = connection.query(
+            'INSERT INTO role SET ?',
+            {
+                title: title,
+                salary: salary,
+                department_id: deptID
+            },
+            function (err, res) {
+                if (err) throw err;
+            }
+        );
+
+    })
+
+    main();
 }
 
 //Add Employee
@@ -149,6 +199,8 @@ const addEmployee = () => {
         );
     })
 
+    main();
+
 }
 
 //view - department, roles, employees
@@ -157,7 +209,7 @@ const addEmployee = () => {
 
 //Update Employee Roles
 const updateEmp = () => {
-    console.log('Update Employee Roles');
+
 }
 
 /////
